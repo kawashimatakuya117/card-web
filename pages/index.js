@@ -1,118 +1,160 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import React, { useState } from 'react';
+import Document, { Html, Head, Main, NextScript } from 'next/document'
+import styles from '../styles/WeaponShop.module.css';
+import App from './_app';
+import header from './_app';
 
-const inter = Inter({ subsets: ['latin'] })
+const weapons = [
+  {
+    id: 1,
+    name: 'クラシック',
+    description:'値段:無料\nマガジン弾数:12     ダメージ：頭 78     胴 26  手足 18',
+    image:'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200001.webp',
+  },
+  {
+    id: 2,
+    name: 'ショーティー',
+    description:'値段:300\nマガジン弾数:12     ダメージ：頭 22     胴 11  手足 9',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200002.webp',
+  },
+  {
+    id: 3,
+    name: 'フレンジー',
+    description:'値段:450\nマガジン弾数:12     ダメージ：頭 78     胴 26  手足 18',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200003.webp',
+  },
+    {
+    id: 4,
+    name: 'ゴースト',
+    description:'値段:500\nマガジン弾数:12     ダメージ：頭 105     胴 30  手足 25',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200004.webp',
+  },
+  {
+    id: 5,
+    name: 'シェリフ',
+    description:'値段:800\nマガジン弾数:12     ダメージ：頭 159     胴 55  手足 50',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200005.webp',
+  },
+  {
+    id: 6,
+    name: 'スティンガー',
+    description:'値段:1150\nマガジン弾数:12     ダメージ：頭 78     胴 26  手足 18',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200006.webp',
+  },
+    {
+    id: 7,
+    name: 'スペクター',
+    description:'値段:1600\nマガジン弾数:12     ダメージ：頭 78     胴 26  手足 18',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200007.webp',
+  },
+  {
+    id: 8,
+    name: 'バッキー',
+    description:'値段:850\nマガジン弾数:12     ダメージ：頭 78     胴 26  手足 18',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200008.webp',
+  },
+  {
+    id: 9,
+    name: 'ジャッジ',
+    description:'値段:1850\nマガジン弾数:12     ダメージ：頭 78     胴 26  手足 18',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200009.webp',
+  },
+    {
+    id: 10,
+    name: 'ブルドッグ',
+    description:'値段:2050\nマガジン弾数:12     ダメージ：頭 115     胴 35  手足 30',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200010.webp',
+  },
+  {
+    id: 11,
+    name: 'ガーディアン',
+    description:'値段:2250\nマガジン弾数:12     ダメージ：頭 195     胴 65  手足 55',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200011.webp',
+  },
+  {
+    id: 12,
+    name: 'ヴァンダル',
+    description:'値段:2900\nマガジン弾数:12     ダメージ：頭 160     胴 40  手足 34',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200012.webp',
+  },
+    {
+    id: 13,
+    name: 'ファントム',
+    description:'値段:2900\nマガジン弾数:12     ダメージ：頭 156     胴 35  手足 30',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200013.webp',
+  },
+  {
+    id: 14,
+    name: 'マーシャル',
+    description:'値段:950\nマガジン弾数:12     ダメージ：頭 202     胴 101',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200014.webp',
+  },
+  {
+    id: 15,
+    name: 'オペレーター',
+    description:'値段:4700\nマガジン弾数:12     ダメージ：頭 255     胴 150  手足 120',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200015.webp',
+  },
+    {
+    id: 16,
+    name: 'アレス',
+    description:'値段:1600\nマガジン弾数:12     ダメージ：頭 78     胴 26  手足 18',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200016.webp',
+  },
+  {
+    id: 17,
+    name: 'オーディン',
+    description:'値段:3200\nマガジン弾数:12     ダメージ：頭 78     胴 26  手足 18',
+    image: 'https://appmedia.jp/wp-content/themes/appmedia/lib/valorant/images/weapon/icon/200017.webp',
+  },
+];
 
-export default function Home() {
+const WeaponShop = () => {
+  const [selectedWeapon, setSelectedWeapon] = useState(null);
+
+  const handleWeaponClick = (weapon) => {
+    setSelectedWeapon(weapon);
+  };
+
+  const handleModalClose = () => {
+    setSelectedWeapon(null);
+  };
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <title>Varolant Weapons Site</title>
+      <div className={styles.body}>
+        <h1  className={styles.title}>Varolant Weapons</h1>
+        <div className={styles.container} >
+      {weapons.map((weapon) => (
+        <div
+          key={weapon.id}
+          className={styles.card}
+          onClick={() => handleWeaponClick(weapon)}
+        >
+          <img src={weapon.image} alt={weapon.name} />
+          <h3>{weapon.name}</h3>
         </div>
-      </div>
+      ))}
+      {selectedWeapon && (
+          <div className={styles.modal}>
+              <button className={styles.closeButton} onClick={handleModalClose}>
+              ×
+              </button>
+            <div className={styles.modalContent}>
+              <img src={selectedWeapon.image} alt={selectedWeapon.name} />
+              <h3>{selectedWeapon.name}</h3>
+              <p>{selectedWeapon.description}</p>
+            </div>
+        </div>
+      )}
+        </div>
+        <footer className={styles.footer}>
+          <p>copyright©kawashima</p>
+        </footer>
+        </div>
+      </>
+  );
+};
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default WeaponShop;
